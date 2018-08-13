@@ -16,11 +16,6 @@ if args.Bucket_Name:  # if the Bucket_Name optional argument is used
 session = boto3.Session(profile_name='eureka-terraform')
 s3 = session.resource('s3')
 
-def cli():
-    """S3 Webinator deploys websites to S3 buckets"""
-    pass
-
-
 def list_buckets():
     """List all S3 Buckets"""
     for bucket in s3.buckets.all():
