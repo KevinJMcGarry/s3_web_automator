@@ -72,10 +72,7 @@ def setup_bucket(bucket):
 def sync(path_name, bucket):
     """Sync contents of PATHNAME to S3 Bucket."""
     bucket_manager.sync(path_name, bucket)
-
-    # creating a Path object from the user's cli website path argument
-    # the expanduser() method is for expanding ~ to the actual user's homedir
-    # the resolve() method resolve symlinks and eliminate “..” components
+    print(bucket_manager.get_bucket_url(bucket_manager.s3.Bucket(bucket_name)))
 
 
 if args.Command == "list_buckets":

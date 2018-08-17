@@ -1,11 +1,14 @@
 """Classes for S3 Buckets.
-Encapsulation of our bucket logic in this module"""
+
+Encapsulation of our bucket logic in this module
+"""
 
 import mimetypes
 from pathlib import Path
 
 from botocore.exceptions import ClientError  # for catching Boto3 specific errors
 
+import util
 
 class BucketManager:
     """Manage an S3 Bucket."""
@@ -14,6 +17,19 @@ class BucketManager:
         """Create a BucketManager Object."""
         self.session = session
         self.s3 = self.session.resource('s3')
+
+    def get_region_name(self, bucket):
+        """Get the bucket's region name."""
+        # creating location object to get location information about the bucket
+        bucket_location = self.s3.meta.client.get_bucket_location(Bucket=bucket.name)
+
+        return bucket_location["LocationConstraint"] or 'us-east-1'
+        # strange AWS API behavior, all regions are determined using the bucket_location object unless
+        # us-east-1, this region has to be specified
+
+    def get_bucket_url(self, bucket):
+        """Get the website URL for this bucket."""
+        return f"http://{bucket.name}.{util.get_endpoint(self.get_region_name(bucket)).host}"
 
     def all_buckets(self):
         """Get all S3 Buckets."""
@@ -77,7 +93,6 @@ class BucketManager:
     @staticmethod  # this method is static as it doesn't rely on BucketManager class at all
     def upload_file(bucket, path, key):
         """Upload website files to specified S3 bucket."""
-
         # guess_type method gives us a tuple, the first element is the file
         content_type = mimetypes.guess_type(key)[0] or 'text/plain'  # if can't guess type, assign text/plain mimetype
 
@@ -94,6 +109,10 @@ class BucketManager:
         """Sync contents of path_name to bucket."""
         bucket = self.s3.Bucket(bucket_name)
         website_root_path = Path(path_name).expanduser().resolve()
+
+        # creating a Path object from the user's cli website path argument
+        # the expanduser() method is for expanding ~ to the actual user's homedir
+        # the resolve() method resolve symlinks and eliminate “..” components
 
         def handle_directory(source_dir):
             """Identify and upload website files and folders to S3."""
