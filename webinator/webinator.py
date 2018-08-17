@@ -26,6 +26,7 @@ parser.add_argument('Region', help='Specify the AWS Region you are working in eg
 parser.add_argument('--Bucket_Name', help='Type in the name of an S3 bucket')
 parser.add_argument('--Website_Root', help='Type in the full path to the website files that you want to sync '
                                            '(without quotes)')
+parser.add_argument('--AWS_Profile', help='Type in the AWS Profile you wish to use for this session')
 
 # need to add some error handling for the commands
 
@@ -37,9 +38,12 @@ if args.Region:
     aws_region = args.Region
 if args.Website_Root:
     website_root_path = args.Website_Root
+if args.AWS_Profile:
+    aws_profile = args.AWS_Profile
+
 
 # Setting Boto3 session and creating s3 resource object
-session = boto3.Session(profile_name='eureka-terraform', region_name='us-west-2')
+session = boto3.Session(profile_name=aws_profile, region_name='us-west-2')
 bucket_manager = BucketManager(session)  # creating and S3 bucket_manager object from BucketManager class
 # s3 = session.resource('s3')
 

@@ -10,6 +10,7 @@ The S3 Webinator currently has the following features:
 - List Contents of a Bucket
 - Create an S3 bucket and configure it as a website
 - Sync website directory tree to S3 bucket
+- Set AWS profile with --AWS_Profile=<profileName>
 
-example - python webinator.py list\_bucket\_objects --Bucket_Name someS3Bucket
+example - python webinator.py list\_bucket\_objects us-west-2 --AWS_Profile=someProfile --Bucket_Name someS3Bucket
 
