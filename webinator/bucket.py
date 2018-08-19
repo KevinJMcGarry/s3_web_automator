@@ -37,6 +37,10 @@ class BucketManager:
         # empty manifest object to be used by load_manifest method below, used for getting s3 bucket e-tags
         self.manifest = {}
 
+    def get_bucket(self, bucket_name):
+        """Get a bucket by name."""
+        return self.s3.Bucket(bucket_name)
+
     def get_region_name(self, bucket):
         """Get the bucket's region name."""
         # creating location object to get location information about the bucket
