@@ -55,3 +55,25 @@ class DomainManager:
                 ]
             }
         )
+
+    def create_cf_domain_record(self, zone, domain_name, cf_domain):
+        """Create a dns record in zone for domain_name."""
+        return self.route53_client.change_resource_record_sets(
+            HostedZoneId=zone['Id'],
+            ChangeBatch={
+                'Comment': 'Created by The Webinator',
+                'Changes': [{
+                        'Action': 'UPSERT',  # if it exists update, if not insert
+                        'ResourceRecordSet': {
+                            'Name': domain_name,
+                            'Type': 'A',
+                            'AliasTarget': {
+                                'HostedZoneId': 'Z2FDTNDATAQYW2',  # this id is the same for all CF distributions
+                                'DNSName': cf_domain,
+                                'EvaluateTargetHealth': False
+                            }
+                        }
+                    }
+                ]
+            }
+        )
