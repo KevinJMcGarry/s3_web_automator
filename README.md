@@ -16,3 +16,6 @@ The S3 Webinator currently has the following features:
 
 example - python webinator.py list\_bucket\_objects us-west-2 --AWS_Profile=someProfile --Bucket_Name someS3Bucket
 
+### Note
+this is more of a learning exercise using Boto3 to automate the deployment of resources. In production you would leverage an IaaC tool like Terraform/CloudFormation as well as a CI/CD tool like Jenkins.
+

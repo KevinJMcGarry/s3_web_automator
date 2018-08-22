@@ -18,7 +18,8 @@ class DistributionManager:
         for page in paginator.paginate():
             pprint.pprint(page)
             for dist in page['DistributionList'].get('Items', []):
-                print(dist)
+                pprint.pprint(dist)
+                exit(1)
                 #for alias in dist['Aliases']['Items']:  # CF distributions can have aliases/CNAMEs assigned to them
                     #if alias == fqdn:
                         #return dist
