@@ -15,14 +15,13 @@ from argparse import ArgumentParser
 
 import boto3
 import pprint
-import util
 
-
-# This file uses BucketManager for most of its logic
 from bucket import BucketManager
 from dns import DomainManager
 from certificate import CertificateManager
 from cdn import DistributionManager
+
+import util
 
 
 parser = ArgumentParser(description='Arguments for the S3 Boto3 Session')
