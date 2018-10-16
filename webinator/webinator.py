@@ -54,11 +54,11 @@ if args.Domain:
     domain_name = args.Domain
 
 
-# Setting Boto3 session and creating s3 resource object
+# Setting Boto3 session
 # programmatically authenticate to AWS via boto3
 session = boto3.Session(profile_name=aws_profile, region_name='us-west-2')
 
-# S3 and Route53 session objects using respective classes
+# Various service objects using their respective classes
 bucket_manager = BucketManager(session)  # creating an S3 bucket_manager object from BucketManager class
 domain_manager = DomainManager(session)  # creating a route53 domain_manager object
 cert_manager = CertificateManager(session)  # creating a certificate manager object
